@@ -63,7 +63,7 @@ export default function Dashboard() {
         <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
         <div className="mx-auto max-w-7xl space-y-6">
             <Header
-            title="Shopping Notes"
+            title="LISTIFY"
             subtitle="Catat barang yang mau dibeli, yang sedang diproses, dan yang sudah berhasil kamu beli."
             isDark={theme === 'dark'}
             onToggleTheme={toggleTheme}

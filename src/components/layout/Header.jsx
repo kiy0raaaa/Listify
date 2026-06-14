@@ -1,7 +1,7 @@
 import Button from '../ui/Button';
 
 export default function Header({
-    title = 'Shopping Notes',
+    title = 'LISTIFY',
     subtitle = 'Catat barang yang kamu mau, lagi proses, atau sudah dibeli.',
     isDark = false,
     onToggleTheme,
@@ -12,9 +12,6 @@ export default function Header({
         <header className="rounded-2xl border p-5">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
-                shopping tracker
-            </p>
             <h1 className="mt-2 text-3xl font-bold">{title}</h1>
             <p className="mt-2 max-w-2xl text-sm text-slate-500">{subtitle}</p>
             </div>
