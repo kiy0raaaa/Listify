@@ -275,6 +275,83 @@ body::before {
     border-color: #5E2030;
 }
 
+/* ============================================================
+   User Profile Styles
+   ============================================================ */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--pink-200);
+    transition: all 0.2s ease;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-sm);
+}
+
+.user-profile-image {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--pink-300);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    object-fit: cover;
+}
+
+.user-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.user-profile-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--pink-800);
+    line-height: 1.2;
+}
+
+.user-profile-email {
+    font-size: 0.75rem;
+    color: #8A5A70;
+}
+
+.user-profile-placeholder {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink-400), var(--yellow-400));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 1.125rem;
+    border: 2px solid var(--pink-300);
+}
+
+.is-dark .user-profile {
+    background: rgba(45, 16, 32, 0.5);
+    border-color: var(--dark-border);
+}
+
+.is-dark .user-profile:hover {
+    background: rgba(45, 16, 32, 0.8);
+}
+
+.is-dark .user-profile-name {
+    color: var(--pink-100);
+}
+
+.is-dark .user-profile-email {
+    color: #C090A8;
+}
+
 h1, h2, h3 {
     font-weight: 800;
     letter-spacing: -0.01em;
