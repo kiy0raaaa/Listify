@@ -520,6 +520,7 @@ a:hover {
     gap: .625rem;
     width: 100%;
     min-width: 0;
+    overflow-y: auto;
 }
 
 .all-notes input[type="text"],
