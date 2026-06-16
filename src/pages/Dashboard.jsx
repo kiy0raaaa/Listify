@@ -16,12 +16,12 @@ import EmptyState from '../components/ui/EmptyState';
 import { exportNotesAsCSV, exportNotesAsJSON } from '../services/exportService';
 
 export default function Dashboard() {
-    const { notes, addNote, deleteNote, addItem, updateItem, deleteItem } = useNotes();
+    const { notes, loading, error, addNote, deleteNote, addItem, updateItem, deleteItem } = useNotes();
     const { theme, isDark, toggleTheme } = useTheme();
 
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('All');
-    const [selectedNoteId, setSelectedNoteId] = useState(notes[0]?.id || null);
+    const [selectedNoteId, setSelectedNoteId] = useState(null);
 
     const searchedNotes = useMemo(() => searchNotes(notes, search), [notes, search]);
 
@@ -59,6 +59,71 @@ export default function Dashboard() {
         };
     }, [notes]);
 
+    const handleAddNote = async (noteData) => {
+        try {
+            const newNote = await addNote(noteData);
+            setSelectedNoteId(newNote.id);
+        } catch (err) {
+            console.error('Error adding note:', err);
+        }
+    };
+
+    const handleDeleteNote = async (noteId) => {
+        try {
+            await deleteNote(noteId);
+            if (selectedNoteId === noteId) {
+                setSelectedNoteId(notes.find(n => n.id !== noteId)?.id || null);
+            }
+        } catch (err) {
+            console.error('Error deleting note:', err);
+        }
+    };
+
+    const handleAddItem = async (itemData) => {
+        if (!selectedNote?.id) return;
+        try {
+            await addItem(selectedNote.id, itemData);
+        } catch (err) {
+            console.error('Error adding item:', err);
+        }
+    };
+
+    const handleUpdateItem = async (noteId, itemId, patch) => {
+        try {
+            await updateItem(noteId, itemId, patch);
+        } catch (err) {
+            console.error('Error updating item:', err);
+        }
+    };
+
+    const handleDeleteItem = async (noteId, itemId) => {
+        try {
+            await deleteItem(noteId, itemId);
+        } catch (err) {
+            console.error('Error deleting item:', err);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+            <div className="dashboard-container flex items-center justify-center min-h-screen">
+                <div className="text-lg">Loading notes...</div>
+            </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+            <div className="dashboard-container flex items-center justify-center min-h-screen">
+                <div className="text-lg text-red-500">Error: {error}</div>
+            </div>
+            </div>
+        );
+    }
+
     return (
         <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
         <div className="dashboard-container">
@@ -75,17 +140,14 @@ export default function Dashboard() {
 
             <section className="all">
             <div className="all-notes">
-                <CreateNoteForm onCreate={addNote} />
+                <CreateNoteForm onCreate={handleAddNote} />
                 <SearchBar value={search} onChange={setSearch} placeholder="Search notes / item / link..." />
                 <StatusFilter value={statusFilter} onChange={setStatusFilter} />
                 <NoteList
                 notes={filteredNotes}
                 selectedNoteId={selectedNoteId}
                 onSelectNote={setSelectedNoteId}
-                onDeleteNote={(noteId) => {
-                    deleteNote(noteId);
-                    if (selectedNoteId === noteId) setSelectedNoteId(notes[0]?.id || null);
-                }}
+                onDeleteNote={handleDeleteNote}
                 />
             </div>
 
@@ -108,18 +170,15 @@ export default function Dashboard() {
 
                 <div className="item-form-section">
                     <CreateItemForm
-                    onCreate={(itemData) => {
-                        if (!selectedNote?.id) return;
-                        addItem(selectedNote.id, itemData);
-                    }}
+                    onCreate={handleAddItem}
                     />
                 </div>
 
                 <div className="item-list-section">
                     <ItemList
                     note={selectedNote}
-                    onUpdateItem={updateItem}
-                    onDeleteItem={deleteItem}
+                    onUpdateItem={handleUpdateItem}
+                    onDeleteItem={handleDeleteItem}
                     />
                 </div>
                 </>

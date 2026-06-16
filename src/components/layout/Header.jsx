@@ -1,4 +1,5 @@
 import Button from '../ui/Button';
+import UserProfile from './UserProfile';
 
 export default function Header({
     title = 'LISTIFY',
@@ -16,7 +17,7 @@ export default function Header({
             <p className="subtitle">{subtitle}</p>
             </div>
 
-            <div className="buttons">
+            <div className="buttons flex flex-wrap items-center gap-3">
             <Button onClick={onToggleTheme}>
                 {isDark ? 'Light Mode' : 'Dark Mode'}
             </Button>
@@ -26,6 +27,7 @@ export default function Header({
             <Button variant="secondary" onClick={onExportJSON}>
                 Export JSON
             </Button>
+            <UserProfile />
             </div>
         </div>
         </header>

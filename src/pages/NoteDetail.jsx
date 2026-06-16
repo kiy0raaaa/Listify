@@ -12,10 +12,55 @@ import Button from '../components/ui/Button';
 export default function NoteDetail() {
     const { noteId } = useParams();
     const navigate = useNavigate();
-    const { notes, addItem, updateItem, deleteItem } = useNotes();
+    const { notes, loading, error, addItem, updateItem, deleteItem } = useNotes();
     const { theme, isDark, toggleTheme } = useTheme();
 
     const note = useMemo(() => findNoteById(notes, noteId), [notes, noteId]);
+
+    const handleAddItem = async (itemData) => {
+        if (!note?.id) return;
+        try {
+            await addItem(note.id, itemData);
+        } catch (err) {
+            console.error('Error adding item:', err);
+        }
+    };
+
+    const handleUpdateItem = async (itemNoteId, itemId, patch) => {
+        try {
+            await updateItem(itemNoteId, itemId, patch);
+        } catch (err) {
+            console.error('Error updating item:', err);
+        }
+    };
+
+    const handleDeleteItem = async (itemNoteId, itemId) => {
+        try {
+            await deleteItem(itemNoteId, itemId);
+        } catch (err) {
+            console.error('Error deleting item:', err);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
+            <div className="mx-auto max-w-5xl space-y-6 flex items-center justify-center">
+                <div className="text-lg">Loading note...</div>
+            </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
+            <div className="mx-auto max-w-5xl space-y-6 flex items-center justify-center">
+                <div className="text-lg text-red-500">Error: {error}</div>
+            </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
@@ -44,13 +89,13 @@ export default function NoteDetail() {
                 </div>
 
                 <CreateItemForm
-                onCreate={(itemData) => addItem(note.id, itemData)}
+                onCreate={handleAddItem}
                 />
 
                 <ItemList
                 note={note}
-                onUpdateItem={updateItem}
-                onDeleteItem={deleteItem}
+                onUpdateItem={handleUpdateItem}
+                onDeleteItem={handleDeleteItem}
                 />
             </>
             ) : (

@@ -5,34 +5,35 @@ import Button from '../components/ui/Button';
 import { exportNotesAsCSV, exportNotesAsJSON } from '../services/exportService';
 
 export default function Settings() {
-    const { notes, resetNotes, setNotes } = useNotes();
+    const { notes, loading, error } = useNotes();
     const { theme, isDark, toggleTheme } = useTheme();
 
-    const importFromFile = async (event) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
+    if (loading) {
+        return (
+            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
+            <div className="mx-auto max-w-4xl space-y-6 flex items-center justify-center">
+                <div className="text-lg">Loading...</div>
+            </div>
+            </div>
+        );
+    }
 
-        const text = await file.text();
-        try {
-        const parsed = JSON.parse(text);
-        if (Array.isArray(parsed)) {
-            setNotes(parsed);
-        } else {
-            alert('File JSON tidak valid.');
-        }
-        } catch {
-        alert('Gagal membaca file JSON.');
-        }
-
-        event.target.value = '';
-    };
+    if (error) {
+        return (
+            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
+            <div className="mx-auto max-w-4xl space-y-6 flex items-center justify-center">
+                <div className="text-lg text-red-500">Error: {error}</div>
+            </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
         <div className="mx-auto max-w-4xl space-y-6">
             <Header
             title="Settings"
-            subtitle="Pengaturan dasar, export, import, dan reset data."
+            subtitle="Pengaturan dasar dan export data."
             isDark={theme === 'dark'}
             onToggleTheme={toggleTheme}
             onExportCSV={() => exportNotesAsCSV(notes)}
@@ -47,29 +48,6 @@ export default function Settings() {
                 </p>
                 <Button className="mt-4" onClick={toggleTheme}>
                 {theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
-                </Button>
-            </div>
-
-            <div className="rounded-2xl border p-5">
-                <h2 className="text-xl font-semibold">Import Data</h2>
-                <p className="mt-2 text-sm text-slate-500">
-                Import JSON hasil export dari aplikasi ini.
-                </p>
-                <input
-                type="file"
-                accept="application/json"
-                onChange={importFromFile}
-                className="mt-4 block w-full"
-                />
-            </div>
-
-            <div className="rounded-2xl border p-5 md:col-span-2">
-                <h2 className="text-xl font-semibold">Danger Zone</h2>
-                <p className="mt-2 text-sm text-slate-500">
-                Reset akan mengembalikan data ke sample awal.
-                </p>
-                <Button variant="danger" className="mt-4" onClick={resetNotes}>
-                Reset to Sample Data
                 </Button>
             </div>
             </div>
