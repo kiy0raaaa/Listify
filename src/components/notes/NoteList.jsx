@@ -3,7 +3,6 @@ import EmptyState from '../ui/EmptyState';
 
 export default function NoteList({
     notes,
-    selectedNoteId,
     onSelectNote,
     onDeleteNote,
     }) {
@@ -22,7 +21,6 @@ export default function NoteList({
             <NoteCard
             key={note.id}
             note={note}
-            active={note.id === selectedNoteId}
             onSelect={() => onSelectNote(note.id)}
             onDelete={() => onDeleteNote(note.id)}
             />

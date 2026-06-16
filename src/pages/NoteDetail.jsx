@@ -8,6 +8,7 @@ import NoteProgress from '../components/notes/NoteProgress';
 import CreateItemForm from '../components/items/CreateItemForm';
 import ItemList from '../components/items/ItemList';
 import Button from '../components/ui/Button';
+import EmptyState from '../components/ui/EmptyState';
 
 export default function NoteDetail() {
     const { noteId } = useParams();
@@ -44,8 +45,8 @@ export default function NoteDetail() {
 
     if (loading) {
         return (
-            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
-            <div className="mx-auto max-w-5xl space-y-6 flex items-center justify-center">
+            <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+            <div className="dashboard-container flex items-center justify-center min-h-screen">
                 <div className="text-lg">Loading note...</div>
             </div>
             </div>
@@ -54,8 +55,8 @@ export default function NoteDetail() {
 
     if (error) {
         return (
-            <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
-            <div className="mx-auto max-w-5xl space-y-6 flex items-center justify-center">
+            <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+            <div className="dashboard-container flex items-center justify-center min-h-screen">
                 <div className="text-lg text-red-500">Error: {error}</div>
             </div>
             </div>
@@ -63,47 +64,55 @@ export default function NoteDetail() {
     }
 
     return (
-        <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
-        <div className="mx-auto max-w-5xl space-y-6">
+        <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+        <div className="dashboard-container">
             <Header
-            title="Note Detail"
-            subtitle="Halaman detail satu notes untuk fokus ngatur item-item di dalamnya."
+            title="LISTIFY"
+            subtitle="Catat barang yang mau dibeli, yang sedang diproses, dan yang sudah berhasil kamu beli."
             isDark={theme === 'dark'}
             onToggleTheme={toggleTheme}
             onExportCSV={() => {}}
             onExportJSON={() => {}}
             />
 
-            <Button onClick={() => navigate('/')}>← Back to Dashboard</Button>
+            <Button onClick={() => navigate('/')} className="mb-4">← Back to Dashboard</Button>
 
             {note ? (
             <>
-                <div className="rounded-2xl border p-5">
-                <h2 className="text-2xl font-bold">{note.title}</h2>
-                <p className="mt-2 text-sm text-slate-500">
+                <div className="note-detail-card">
+                <h2 className="note-detail-title">
+                    {note.title}
+                </h2>
+
+                <p className="note-detail-description">
                     {note.description || 'No description'}
                 </p>
-                <div className="mt-4">
+
+                <div className="note-progress-wrapper">
                     <NoteProgress items={note.items} />
                 </div>
                 </div>
 
+                <div className="item-form-section">
                 <CreateItemForm
-                onCreate={handleAddItem}
+                    onCreate={handleAddItem}
                 />
+                </div>
 
+                <div className="item-list-section">
                 <ItemList
-                note={note}
-                onUpdateItem={handleUpdateItem}
-                onDeleteItem={handleDeleteItem}
+                    note={note}
+                    onUpdateItem={handleUpdateItem}
+                    onDeleteItem={handleDeleteItem}
                 />
+                </div>
             </>
             ) : (
-            <div className="rounded-2xl border p-6">
-                <h2 className="text-xl font-semibold">Notes tidak ditemukan</h2>
-                <p className="mt-2 text-sm text-slate-500">
-                Mungkin notes ini sudah dihapus atau ID-nya tidak valid.
-                </p>
+            <div className="empty-note-state">
+                <EmptyState
+                title="Notes tidak ditemukan"
+                description="Mungkin notes ini sudah dihapus atau ID-nya tidak valid."
+                />
             </div>
             )}
         </div>

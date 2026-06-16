@@ -859,21 +859,13 @@ a:hover {
 
 @media (min-width: 1024px) {
     .all {
-        flex-direction: row;
-        align-items: flex-start;
+        flex-direction: column;
         gap: 1.5rem;
     }
 
     .all-notes {
-        width: 35%;
-        flex-shrink: 0;
-        max-height: calc(100vh - 280px);
-        position: sticky;
-        top: 1rem;
-    }
-
-    .note-detail-section {
-        width: 65%;
+        width: 100%;
+        flex-shrink: 1;
     }
 }
 

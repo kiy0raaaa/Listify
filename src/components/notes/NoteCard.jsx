@@ -2,14 +2,12 @@ import { calculateProgress } from '../../utils/calculateProgress';
 import { formatCurrency } from '../../utils/formatCurrency';
 import ProgressBar from '../ui/ProgressBar';
 
-export default function NoteCard({ note, active = false, onSelect, onDelete }) {
+export default function NoteCard({ note, onSelect, onDelete }) {
     const progress = calculateProgress(note.items);
     const totalValue = note.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
 
     return (
-    <div
-        className={`card ${active ? 'card-active' : ''}`}
-    >
+    <div className="card">
         <div className="card-header">
         <button
             onClick={onSelect}
