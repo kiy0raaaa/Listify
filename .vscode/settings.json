@@ -1,3 +1,10 @@
 {
-    "folder-color.pathColors": []
+    "liveServer.settings.root": "/dist",
+    "liveServer.settings.ignoreFiles": [
+        ".vscode/**",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.ts"
+    ],
+    "liveServer.settings.port": 5501
 }

@@ -21,7 +21,7 @@ export default function ItemList({ note, onUpdateItem, onDeleteItem }) {
     }
 
     return (
-        <div className="space-y-3">
+        <div className="notelist">
         {note.items.map((item) => (
             <ItemCard
             key={item.id}

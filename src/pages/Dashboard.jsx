@@ -60,8 +60,8 @@ export default function Dashboard() {
     }, [notes]);
 
     return (
-        <div className={`min-h-screen p-4 ${isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
-        <div className="mx-auto max-w-7xl space-y-6">
+        <div className={`dashboard-page${isDark ? ' is-dark' : ''}`}>
+        <div className="dashboard-container">
             <Header
             title="LISTIFY"
             subtitle="Catat barang yang mau dibeli, yang sedang diproses, dan yang sudah berhasil kamu beli."
@@ -73,8 +73,8 @@ export default function Dashboard() {
 
             <DashboardStats stats={stats} />
 
-            <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="space-y-4">
+            <section className="all">
+            <div className="all-notes">
                 <CreateNoteForm onCreate={addNote} />
                 <SearchBar value={search} onChange={setSearch} placeholder="Search notes / item / link..." />
                 <StatusFilter value={statusFilter} onChange={setStatusFilter} />
@@ -89,38 +89,48 @@ export default function Dashboard() {
                 />
             </div>
 
-            <div className="space-y-4">
-                {selectedNote ? (
+            <div className="note-detail-section">
+            {selectedNote ? (
                 <>
-                    <div className="rounded-2xl border p-5">
-                    <h2 className="text-2xl font-bold">{selectedNote.title}</h2>
-                    <p className="mt-2 text-sm text-slate-500">
-                        {selectedNote.description || 'No description'}
-                    </p>
-                    <div className="mt-4">
-                        <NoteProgress items={selectedNote.items} />
-                    </div>
-                    </div>
+                <div className="note-detail-card">
+                    <h2 className="note-detail-title">
+                    {selectedNote.title}
+                    </h2>
 
+                    <p className="note-detail-description">
+                    {selectedNote.description || 'No description'}
+                    </p>
+
+                    <div className="note-progress-wrapper">
+                    <NoteProgress items={selectedNote.items} />
+                    </div>
+                </div>
+
+                <div className="item-form-section">
                     <CreateItemForm
                     onCreate={(itemData) => {
                         if (!selectedNote?.id) return;
                         addItem(selectedNote.id, itemData);
                     }}
                     />
+                </div>
 
+                <div className="item-list-section">
                     <ItemList
                     note={selectedNote}
                     onUpdateItem={updateItem}
                     onDeleteItem={deleteItem}
                     />
+                </div>
                 </>
-                ) : (
+            ) : (
+                <div className="empty-note-state">
                 <EmptyState
                     title="No notes selected"
                     description="Buat atau pilih notes dulu untuk mulai menambah item."
                 />
-                )}
+                </div>
+            )}
             </div>
             </section>
         </div>

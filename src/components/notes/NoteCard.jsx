@@ -7,37 +7,54 @@ export default function NoteCard({ note, active = false, onSelect, onDelete }) {
     const totalValue = note.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
 
     return (
-        <div
-        className={`rounded-2xl border p-4 ${
-            active ? 'border-slate-900 bg-slate-50' : ''
-        }`}
+    <div
+        className={`card ${active ? 'card-active' : ''}`}
+    >
+        <div className="card-header">
+        <button
+            onClick={onSelect}
+            className="note-btn"
         >
-        <div className="flex items-start justify-between gap-3">
-            <button onClick={onSelect} className="text-left">
-            <h3 className="text-lg font-semibold">{note.title}</h3>
-            <p className="mt-1 text-sm text-slate-500">
-                {note.description || 'No description'}
+            <h3 className="note-title">
+            {note.title}
+            </h3>
+
+            <p className="note-desc">
+            {note.description || 'No description'}
             </p>
-            </button>
+        </button>
 
-            <button onClick={onDelete} className="text-sm text-rose-600">
+        <button
+            onClick={onDelete}
+            className="delete-btn"
+        >
             Delete
-            </button>
+        </button>
         </div>
 
-        <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between text-sm">
-            <span className="text-slate-500">{note.items.length} items</span>
-            <span className="font-medium">{progress}%</span>
-            </div>
+        <div className="card-body">
+        <div className="item-count-row">
+            <span className="item-count">
+            {note.items.length} items
+            </span>
 
-            <ProgressBar value={progress} />
+            <span className="progress-text">
+            {progress}%
+            </span>
+        </div>
 
-            <div className="flex items-center justify-between text-sm">
-            <span className="text-slate-500">Total</span>
-            <span className="font-medium">{formatCurrency(totalValue)}</span>
-            </div>
+        <ProgressBar value={progress} />
+
+        <div className="total-row">
+            <span className="total-label">
+            Total
+            </span>
+
+            <span className="total-value">
+            {formatCurrency(totalValue)}
+            </span>
         </div>
         </div>
-    );
+    </div>
+);
 }

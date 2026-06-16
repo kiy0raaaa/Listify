@@ -5,11 +5,17 @@ export default function NoteProgress({ items = [] }) {
     const progress = calculateProgress(items);
 
     return (
-        <div className="rounded-2xl border p-4">
-        <div className="mb-2 flex items-center justify-between">
-            <p className="text-sm text-slate-500">Progress</p>
-            <p className="font-semibold">{progress}%</p>
+        <div className="note-progress-card">
+        <div className="note-progress-header">
+            <p className="note-progress-label">
+            Progress
+            </p>
+
+            <p className="note-progress-percentage">
+            {progress}%
+            </p>
         </div>
+
         <ProgressBar value={progress} />
         </div>
     );

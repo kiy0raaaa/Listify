@@ -4,10 +4,84 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Listify</title>
+        <style>
+            #app-fallback {
+                font-family: 'Segoe UI', system-ui, sans-serif;
+                max-width: 28rem;
+                margin: 3rem auto;
+                padding: 1.5rem;
+                text-align: center;
+                color: #3D1A2B;
+            }
+            #app-fallback h1 {
+                font-size: 1.75rem;
+                margin-bottom: 0.5rem;
+            }
+            #app-fallback p {
+                margin: 0.75rem 0;
+                line-height: 1.5;
+                color: #875068;
+            }
+            #app-fallback code {
+                display: inline-block;
+                margin-top: 0.5rem;
+                padding: 0.35rem 0.75rem;
+                background: #FFE4F2;
+                border-radius: 0.5rem;
+                font-size: 0.95rem;
+            }
+            #app-fallback a {
+                color: #D4688F;
+            }
+        </style>
     </head>
     <body>
-        <div id="root"></div>
+        <div id="root">
+            <div id="app-fallback">
+                <h1>Listify</h1>
+                <p>Loading…</p>
+            </div>
+        </div>
 
         <script type="module" src="/src/main.jsx"></script>
+        <script>
+            (function () {
+                var shown = false;
+
+                function showDevHelp(reason) {
+                    if (shown) return;
+                    shown = true;
+                    var root = document.getElementById('root');
+                    if (!root) return;
+                    root.innerHTML =
+                        '<div id="app-fallback">' +
+                        '<h1>Listify</h1>' +
+                        '<p>' + reason + '</p>' +
+                        '<p>This app uses <strong>Vite + React</strong>. Live Server cannot run JSX source files directly.</p>' +
+                        '<p>Run in the project terminal:</p>' +
+                        '<code>npm run dev</code>' +
+                        '<p>Then open <a href="http://localhost:5173/">http://localhost:5173/</a></p>' +
+                        '<p style="font-size:0.875rem;margin-top:1rem;">For Live Server: run <code>npm run build</code> first, then open <strong>dist/index.html</strong>.</p>' +
+                        '</div>';
+                }
+
+                window.addEventListener(
+                    'error',
+                    function (event) {
+                        var target = event.target;
+                        if (target && target.tagName === 'SCRIPT' && String(target.src).includes('main.jsx')) {
+                            showDevHelp('Could not load the app script.');
+                        }
+                    },
+                    true
+                );
+
+                window.setTimeout(function () {
+                    if (document.getElementById('app-fallback')) {
+                        showDevHelp('The app did not start.');
+                    }
+                }, 4000);
+            })();
+        </script>
     </body>
 </html>

@@ -5,8 +5,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
+        "start": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "serve": "npm run build && vite preview --open"
     },
     "dependencies": {
         "react": "^18.2.0",

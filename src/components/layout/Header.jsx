@@ -9,14 +9,14 @@ export default function Header({
     onExportJSON,
     }) {
     return (
-        <header className="rounded-2xl border p-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-            <h1 className="mt-2 text-3xl font-bold">{title}</h1>
-            <p className="mt-2 max-w-2xl text-sm text-slate-500">{subtitle}</p>
+        <header className="header">
+        <div className="nav">
+            <div className="label">
+            <h1 className="title">{title}</h1>
+            <p className="subtitle">{subtitle}</p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="buttons">
             <Button onClick={onToggleTheme}>
                 {isDark ? 'Light Mode' : 'Dark Mode'}
             </Button>

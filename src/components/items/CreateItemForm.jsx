@@ -31,43 +31,74 @@ export default function CreateItemForm({ onCreate }) {
     };
 
     return (
-        <form onSubmit={submit} className="grid gap-3 rounded-2xl border p-4 md:grid-cols-2">
-        <h3 className="text-lg font-semibold md:col-span-2">Tambah Item</h3>
+    <form onSubmit={submit} className="item-form create-item-form">
+    <h3 className="item-form-title">
+        Tambah Item
+    </h3>
 
-        <Input
-            value={form.name}
-            onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-            placeholder="Nama barang"
-        />
+    <Input
+        value={form.name}
+        onChange={(e) =>
+        setForm((prev) => ({
+            ...prev,
+            name: e.target.value,
+        }))
+        }
+        placeholder="Nama barang"
+        className="item-input"
+    />
 
-        <Input
-            value={form.link}
-            onChange={(e) => setForm((prev) => ({ ...prev, link: e.target.value }))}
-            placeholder="Link Shopee / TikTok Shop"
-        />
+    <Input
+        value={form.link}
+        onChange={(e) =>
+        setForm((prev) => ({
+            ...prev,
+            link: e.target.value,
+        }))
+        }
+        placeholder="Link Shopee / TikTok Shop"
+        className="item-input"
+    />
 
-        <Input
-            type="number"
-            value={form.price}
-            onChange={(e) => setForm((prev) => ({ ...prev, price: e.target.value }))}
-            placeholder="Harga"
-        />
+    <Input
+        type="number"
+        value={form.price}
+        onChange={(e) =>
+        setForm((prev) => ({
+            ...prev,
+            price: e.target.value,
+        }))
+        }
+        placeholder="Harga"
+        className="item-input"
+    />
 
-        <select
-            value={form.status}
-            onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value }))}
-            className="w-full rounded-xl border px-4 py-3"
+    <select
+        value={form.status}
+        onChange={(e) =>
+        setForm((prev) => ({
+            ...prev,
+            status: e.target.value,
+        }))
+        }
+        className="item-status-select"
+    >
+        {ITEM_STATUS_OPTIONS.map((status) => (
+        <option
+            key={status}
+            value={status}
         >
-            {ITEM_STATUS_OPTIONS.map((status) => (
-            <option key={status} value={status}>
-                {status}
-            </option>
-            ))}
-        </select>
+            {status}
+        </option>
+        ))}
+    </select>
 
-        <Button type="submit" className="md:col-span-2">
-            Tambah Item
-        </Button>
-        </form>
+    <Button
+        type="submit"
+        className="item-submit-btn"
+    >
+        Tambah Item
+    </Button>
+    </form>
     );
 }

@@ -8,7 +8,7 @@ export default function Sidebar({
     onDeleteNote,
     }) {
     return (
-        <aside className="space-y-3">
+        <aside className="semua">
         {notes.length ? (
             notes.map((note) => (
             <NoteCard

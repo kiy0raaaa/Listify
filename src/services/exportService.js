@@ -19,7 +19,7 @@ export function notesToCSV(notes = []) {
     ],
     ];
 
-    tes.forEach((note) => {
+    notes.forEach((note) => {
     if (!note.items.length) {
         rows.push([note.title, note.description, '', '', '', '', '']);
         return;

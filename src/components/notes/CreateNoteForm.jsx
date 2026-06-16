@@ -21,8 +21,8 @@ export default function CreateNoteForm({ onCreate }) {
     };
 
     return (
-        <form onSubmit={submit} className="space-y-3 rounded-2xl border p-4">
-        <h3 className="text-lg font-semibold">Buat Notes Baru</h3>
+        <form onSubmit={submit} className="new-notes">
+        <h3 className="judul">Buat Notes Baru</h3>
 
         <Input
             value={form.title}
@@ -37,7 +37,7 @@ export default function CreateNoteForm({ onCreate }) {
             }
             placeholder="Deskripsi notes"
             rows={3}
-            className="w-full rounded-xl border px-4 py-3 outline-none"
+            className="description"
         />
 
         <Button type="submit">Tambah Notes</Button>
